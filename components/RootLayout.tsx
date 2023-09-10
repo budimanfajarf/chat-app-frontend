@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col items-center p-12">
+    <div className="flex min-h-screen flex-col items-center pt-12">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <Link
           href={'/'}

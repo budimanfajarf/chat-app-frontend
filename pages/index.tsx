@@ -1,4 +1,3 @@
-'use client';
 import { ChatRoomsData } from '@/types/model.type';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
@@ -57,6 +56,9 @@ export default function Home() {
 
   const handleJoinChatRoom = (chatRoomId: string) => {
     joinChatRoom(chatRoomId);
+
+    // Redirect to the chat room
+    router.push(`/chat-rooms/${chatRoomId}`);
   };
 
   return (

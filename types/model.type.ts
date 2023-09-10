@@ -3,8 +3,8 @@ export type Base = {
 };
 
 export type Timestamp = {
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type BaseWithTimestamp = Base & Timestamp;
@@ -15,7 +15,7 @@ export type User = BaseWithTimestamp & {
 
 export type Chat = BaseWithTimestamp & {
   message: string;
-  user: User;
+  user: User[];
 };
 
 export type ChatRoom = BaseWithTimestamp & {
