@@ -1,7 +1,7 @@
 import env from '@/app/env.constant';
 import axios from 'axios';
 
-const instance = axios.create({
+const apiService = axios.create({
   baseURL: env.API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -9,9 +9,4 @@ const instance = axios.create({
   },
 });
 
-export async function getChatRoomData() {
-  const { data } = await instance.get('/v1/chat-rooms');
-  return data;
-}
-
-export default instance;
+export default apiService;
