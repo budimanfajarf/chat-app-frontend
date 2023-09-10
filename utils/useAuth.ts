@@ -22,7 +22,7 @@ export function useAuth() {
       setUserId(storedUserId);
 
       // Connect to the socket server
-      setSocket(io(env.API_BASE_URL, { query: { userId: storedUserId } }));
+      setSocket(io(env.SOCKET_SERVER_URL, { query: { userId: storedUserId } }));
     }
   }, []);
 
@@ -32,7 +32,7 @@ export function useAuth() {
     setUserId(userId);
 
     // Connect to the socket server
-    setSocket(io(env.API_BASE_URL, { query: { userId } }));
+    setSocket(io(env.SOCKET_SERVER_URL, { query: { userId } }));
   };
 
   const logout = async () => {
@@ -45,5 +45,5 @@ export function useAuth() {
     setSocket(null);
   };
 
-  return { userId, login, logout };
+  return { userId, login, logout, socket };
 }

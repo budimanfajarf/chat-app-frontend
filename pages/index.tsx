@@ -3,7 +3,7 @@ import { ChatRoomsData } from '@/types/model.type';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import apiService from '@/utils/api.service';
-import { useAuth } from '@/utils/auth';
+import { useAuth } from '@/utils/useAuth';
 import { useRouter } from 'next/router';
 
 async function getChatRoomsData() {
@@ -26,7 +26,7 @@ async function getChatRoomsData() {
 }
 
 export default function Home() {
-  const { userId } = useAuth();
+  const { userId, socket } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 

@@ -1,4 +1,4 @@
-import { useAuth } from '@/utils/auth';
+import { useAuth } from '@/utils/useAuth';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import apiService from '@/utils/api.service';
