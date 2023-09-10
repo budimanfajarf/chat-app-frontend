@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import env from './env.constant';
+import env from '../constants/env.constant';
 
 const SOCKET_EVENT = {
   // Client Events

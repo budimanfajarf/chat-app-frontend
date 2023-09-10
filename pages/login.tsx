@@ -1,4 +1,4 @@
-import { useAuth } from '@/app/auth';
+import { useAuth } from '@/components/auth';
 import RootLayout from '@/app/layout';
 import { ReactElement } from 'react';
 

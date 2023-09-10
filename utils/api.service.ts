@@ -1,4 +1,4 @@
-import env from '@/app/env.constant';
+import env from '@/constants/env.constant';
 import axios from 'axios';
 
 const apiService = axios.create({

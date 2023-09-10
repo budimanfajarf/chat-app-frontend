@@ -1,10 +1,9 @@
 'use client';
+import { joinChatRoom } from '@/utils/socket';
+import { ChatRoomsData } from '@/types/types';
 import { AxiosError } from 'axios';
-import { ChatRoomsData } from './types';
-import apiService from './api.service';
 import { useEffect, useState } from 'react';
-import socket, { joinChatRoom } from './socket';
-import { getUserId } from './local-storage';
+import apiService from '@/utils/api.service';
 
 async function getChatRoomsData() {
   try {
