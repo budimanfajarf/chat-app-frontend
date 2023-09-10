@@ -3,6 +3,8 @@ import { AxiosError } from 'axios';
 import { ChatRoomsData } from './types';
 import apiService from './api.service';
 import { useEffect, useState } from 'react';
+import socket, { joinChatRoom } from './socket';
+import { getUserId } from './local-storage';
 
 async function getChatRoomsData() {
   try {
@@ -45,6 +47,10 @@ export default function Home() {
     <div>
       <h1 className="text-3xl text-center">Chat Rooms</h1>
 
+      {loading && <p className="text-center text-lg mt-10">Loading...</p>}
+
+      {error && <p className="text-center text-lg mt-10">{error}</p>}
+
       <div className="mt-10 grid md:grid-cols-2 gap-8">
         {data.map((room) => (
           <div
@@ -52,7 +58,10 @@ export default function Home() {
             className="p-8 border-b border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit static w-auto  rounded-xl border bg-gray-200 lg:dark:bg-zinc-800/30"
           >
             <h2 className="text-xl">{room.name}</h2>
-            <button className="px-4 py-2 bg-teal-500 rounded-lg w-full mt-3 font-medium">
+            <button
+              onClick={() => joinChatRoom(room._id)}
+              className="px-4 py-2 bg-teal-500 rounded-lg w-full mt-3 font-medium"
+            >
               Join
             </button>
           </div>
