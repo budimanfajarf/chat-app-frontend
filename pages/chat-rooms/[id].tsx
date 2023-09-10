@@ -1,4 +1,5 @@
-import { ChatRoom, ChatRoomsData } from '@/types/model.type';
+import { SOCKET_EVENT } from '@/constants/socket.constant';
+import { Chat, ChatRoom, ChatRoomsData } from '@/types/model.type';
 import apiService from '@/utils/api.service';
 import { useAuth } from '@/utils/useAuth';
 import { AxiosError } from 'axios';
@@ -76,6 +77,23 @@ export default function ChatRoomPage() {
       setMessage('');
     }
   };
+
+  socket?.on(
+    SOCKET_EVENT.BROADCAST_NEW_MESSAGE_CHAT_ROOM,
+    (payload: { chatRoomId: string; chat: Chat }) => {
+      const { chatRoomId, chat } = payload;
+
+      if (chatRoomId === id) {
+        // Check if the message with the same ID already exists
+        if (!data || !data.chats.some((existingChat) => existingChat._id === chat._id)) {
+          setData((prev) => ({
+            ...prev!,
+            chats: [...prev!.chats, chat], // Use non-null assertion operator here
+          }));
+        }
+      }
+    }
+  );
 
   return (
     <div>
