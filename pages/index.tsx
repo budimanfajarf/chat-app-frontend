@@ -26,7 +26,7 @@ async function getChatRoomsData() {
 }
 
 export default function Home() {
-  const { userId, socket } = useAuth();
+  const { userId, socket, joinChatRoom } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -55,6 +55,10 @@ export default function Home() {
       });
   }, []);
 
+  const handleJoinChatRoom = (chatRoomId: string) => {
+    joinChatRoom(chatRoomId);
+  };
+
   return (
     <div>
       <h1 className="text-3xl text-center">Chat Rooms</h1>
@@ -70,7 +74,10 @@ export default function Home() {
             className="p-8 border-b border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit static w-auto  rounded-xl border bg-gray-200 lg:dark:bg-zinc-800/30"
           >
             <h2 className="text-xl">{room.name}</h2>
-            <button className="px-4 py-2 bg-teal-500 rounded-lg w-full mt-3 font-medium">
+            <button
+              onClick={() => handleJoinChatRoom(room._id)}
+              className="px-4 py-2 bg-teal-500 rounded-lg w-full mt-3 font-medium"
+            >
               Join
             </button>
           </div>

@@ -1,5 +1,6 @@
 export const USER_ID = 'userId';
 import env from '@/constants/env.constant';
+import { SOCKET_EVENT } from '@/constants/socket.constant';
 import { useEffect, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 
@@ -45,5 +46,9 @@ export function useAuth() {
     setSocket(null);
   };
 
-  return { userId, login, logout, socket };
+  const joinChatRoom = (chatRoomId: string) => {
+    return socket?.emit(SOCKET_EVENT.JOIN_CHAT_ROOM, { chatRoomId });
+  };
+
+  return { userId, login, logout, socket, joinChatRoom };
 }
