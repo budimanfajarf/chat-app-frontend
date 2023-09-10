@@ -27,7 +27,7 @@ async function getChatRoomData(id: string) {
 export default function ChatRoomPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { userId, socket } = useAuth();
+  const { userId, socket, sendMessageChatRoom } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<ChatRoom>();
   const [loading, setLoading] = useState(false);
@@ -56,20 +56,42 @@ export default function ChatRoomPage() {
     }
   }, [id]);
 
+  const [message, setMessage] = useState('');
+
+  // Function to handle input changes
+  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(e.target.value);
+  };
+
+  // Function to handle form submission
+  const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Check if the message is not empty
+    if (message.trim() !== '') {
+      // Emit the message to the Socket.io server
+      sendMessageChatRoom({ chatRoomId: id as string, message });
+
+      // Clear the input field after sending
+      setMessage('');
+    }
+  };
+
   return (
     <div>
       <h1 className="text-3xl text-center mt-12 lg:mt-0">{data?.name}</h1>
-      <p className="mt-2">Participants: {data?.participants.map((p) => p.name).join(', ')}</p>
+      <p className="mt-4">Participants: {data?.participants.map((p) => p.name).join(', ')}</p>
 
       {loading && <p className="text-center text-lg mt-10">Loading...</p>}
 
       {error && <p className="text-center text-lg mt-10">{error}</p>}
 
-      <div className="fixed inset-0 overflow-scroll mx-auto mt-48 lg:mt-64 grid gap-4 lg:gap-8 bg-slate-500 w-[80vw] lg:w-[70vw] p-8 lg:p-20 rounded-2xl pb-60">
+      {/* <div className="fixed inset-0 overflow-scroll mx-auto mt-48 lg:mt-64 grid gap-4 lg:gap-8 bg-slate-500 w-[80vw] lg:w-[70vw] p-8 lg:p-20 rounded-2xl pb-60"> */}
+      <div className="mt-4 grid gap-4 lg:gap-8 bg-slate-500 w-[80vw] lg:w-[70vw] p-8 lg:p-20 rounded-2xl pb-60">
         {data?.chats.map((chat) => {
           const user = chat.user[0];
-          // const isCurrentUser = user._id === userId;
-          const isCurrentUser = false;
+          const isCurrentUser = user._id === userId;
+          // const isCurrentUser = false;
 
           let className =
             'w-2/3 p-4 lg:p-6 border-b border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit static rounded-xl border bg-gray-200 lg:dark:bg-zinc-800/30';
@@ -85,6 +107,14 @@ export default function ChatRoomPage() {
             </div>
           );
         })}
+        <form onSubmit={handleSubmitMessage}>
+          <input
+            placeholder="Type your message"
+            className=" outline-none ml-auto w-full p-4 lg:p-6 border-b border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit static rounded-xl border bg-gray-200 lg:dark:bg-zinc-800/30"
+            value={message}
+            onChange={handleMessageChange}
+          />
+        </form>
       </div>
     </div>
   );

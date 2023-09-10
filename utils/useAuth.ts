@@ -47,8 +47,12 @@ export function useAuth() {
   };
 
   const joinChatRoom = (chatRoomId: string) => {
-    return socket?.emit(SOCKET_EVENT.JOIN_CHAT_ROOM, { chatRoomId });
+    socket?.emit(SOCKET_EVENT.JOIN_CHAT_ROOM, { chatRoomId });
   };
 
-  return { userId, login, logout, socket, joinChatRoom };
+  const sendMessageChatRoom = (payload: { chatRoomId: string; message: string }) => {
+    socket?.emit(SOCKET_EVENT.NEW_MESSAGE_CHAT_ROOM, payload);
+  };
+
+  return { userId, login, logout, socket, joinChatRoom, sendMessageChatRoom };
 }
