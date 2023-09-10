@@ -7,6 +7,14 @@ export function useAuth() {
   const [userId, setUserId] = useState<string | null>(null);
   const [socket, setSocket] = useState<Socket | null>(null);
 
+  socket?.on('connect', () => {
+    console.info(`Socket connected: ${socket?.id}`);
+  });
+
+  socket?.on('disconnect', () => {
+    console.info(`Socket disconnected: ${socket?.id}`);
+  });
+
   useEffect(() => {
     // Read the userId from localStorage
     const storedUserId = localStorage.getItem(USER_ID);
