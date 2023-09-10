@@ -1,6 +1,8 @@
+'use client';
 import { AxiosError } from 'axios';
 import { ChatRoomsData } from './types';
 import apiService from './api.service';
+import { useEffect, useState } from 'react';
 
 async function getChatRoomsData() {
   try {
@@ -21,8 +23,23 @@ async function getChatRoomsData() {
   }
 }
 
-export default async function Home() {
-  const data = await getChatRoomsData();
+export default function Home() {
+  const [data, setData] = useState<ChatRoomsData>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    setLoading(true);
+    getChatRoomsData()
+      .then((res) => {
+        setData(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <div>
