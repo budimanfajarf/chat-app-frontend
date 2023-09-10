@@ -21,7 +21,8 @@ socket.on('disconnect', () => {
   console.log(`socket disconnected`);
 });
 
-export default socket;
+// export default socket;
+export default null;
 
 export const joinChatRoom = (chatRoomId: string) => {
   socket.emit(SOCKET_EVENT.JOIN_CHAT_ROOM, { chatRoomId });

@@ -1,3 +1,4 @@
+const USER_ID = 'userId';
 import { useEffect, useState } from 'react';
 
 export function useAuth() {
@@ -5,7 +6,7 @@ export function useAuth() {
 
   useEffect(() => {
     // Read the userId from localStorage
-    const storedUserId = localStorage.getItem('userId');
+    const storedUserId = localStorage.getItem(USER_ID);
     if (storedUserId) {
       setUserId(storedUserId);
     }
@@ -13,13 +14,13 @@ export function useAuth() {
 
   const login = (userId: string) => {
     // Save the userId to localStorage
-    localStorage.setItem('userId', userId);
+    localStorage.setItem(USER_ID, userId);
     setUserId(userId);
   };
 
-  const logout = () => {
+  const logout = async () => {
     // Remove the userId from localStorage
-    localStorage.removeItem('userId');
+    localStorage.removeItem(USER_ID);
     setUserId(null);
   };
 

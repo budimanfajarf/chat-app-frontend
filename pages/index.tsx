@@ -1,9 +1,11 @@
 'use client';
 import { joinChatRoom } from '@/utils/socket';
-import { ChatRoomsData } from '@/types/types';
+import { ChatRoomsData } from '@/types/model.type';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import apiService from '@/utils/api.service';
+import { useAuth } from '@/utils/auth';
+import { useRouter } from 'next/router';
 
 async function getChatRoomsData() {
   try {
@@ -25,9 +27,21 @@ async function getChatRoomsData() {
 }
 
 export default function Home() {
+  const { userId } = useAuth();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+
   const [data, setData] = useState<ChatRoomsData>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!userId && !isLoading) {
+      console.log('Redirecting to login page');
+      router.push('/login');
+    }
+    setIsLoading(false);
+  }, [userId, router, isLoading]);
 
   useEffect(() => {
     setLoading(true);
