@@ -60,24 +60,26 @@ export default function ChatRoomPage() {
     }
   }, [id]);
 
-  const [message, setMessage] = useState('');
+  const [newMessage, setNewMessage] = useState('');
 
   // Function to handle input changes
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage(e.target.value);
+    setNewMessage(e.target.value);
   };
 
   // Function to handle form submission
   const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const trimmedNewMessage = newMessage.trim();
+
     // Check if the message is not empty
-    if (message.trim() !== '') {
+    if (trimmedNewMessage !== '') {
       // Emit the message to the Socket.io server
-      sendMessageChatRoom({ chatRoomId: id as string, message });
+      sendMessageChatRoom({ chatRoomId: id as string, message: trimmedNewMessage });
 
       // Clear the input field after sending
-      setMessage('');
+      setNewMessage('');
     }
   };
 
@@ -126,7 +128,7 @@ export default function ChatRoomPage() {
           <input
             placeholder="Type your message"
             className=" outline-none ml-auto w-full p-4 lg:p-6 border-b border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit static rounded-xl border bg-gray-200 lg:dark:bg-zinc-800/30"
-            value={message}
+            value={newMessage}
             onChange={handleMessageChange}
           />
         </form>
