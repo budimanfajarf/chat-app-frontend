@@ -15,7 +15,7 @@ export type User = BaseWithTimestamp & {
 
 export type Chat = BaseWithTimestamp & {
   message: string;
-  user: User[];
+  user: User;
 };
 
 export type ChatRoom = BaseWithTimestamp & {
