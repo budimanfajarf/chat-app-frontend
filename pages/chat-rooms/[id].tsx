@@ -29,7 +29,7 @@ async function getChatRoomData(id: string) {
 export default function ChatRoomPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { userId, socket, sendMessageChatRoom } = useAuth();
+  const { user, socket, sendMessageChatRoom } = useAuth(); // Updated to use `user` instead of `userId`
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Omit<ChatRoom, 'chats'>>();
   const [chats, setChats] = useState<Chat[]>([]);
@@ -37,11 +37,12 @@ export default function ChatRoomPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!userId && !isLoading) {
+    if (!user && !isLoading) {
+      // Updated to check `user` instead of `userId`
       router.push('/login');
     }
     setIsLoading(false);
-  }, [userId, router, isLoading]);
+  }, [user, router, isLoading]);
 
   useEffect(() => {
     setLoading(true);
@@ -109,11 +110,10 @@ export default function ChatRoomPage() {
 
       {error && <p className="text-center text-lg mt-10">{error}</p>}
 
-      {/* <div className="fixed inset-0 overflow-scroll mx-auto mt-48 lg:mt-64 grid gap-4 lg:gap-8 bg-slate-500 w-[80vw] lg:w-[70vw] p-8 lg:p-20 rounded-2xl pb-60"> */}
       <div className="mt-4 grid gap-4 lg:gap-8 bg-slate-500 p-6 lg:p-20 rounded-2xl pb-60">
         {chats.map((chat) => {
-          const user = chat.user;
-          const isCurrentUser = user._id === userId;
+          const chatUser = chat.user;
+          const isCurrentUser = chatUser._id === user?._id; // Updated to check user._id
 
           let className =
             'w-9/12 p-4 lg:p-6 border-b border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit static rounded-xl border bg-gray-200 lg:dark:bg-zinc-800/30';
@@ -125,7 +125,7 @@ export default function ChatRoomPage() {
           return (
             <div key={chat._id} className={className}>
               {!isCurrentUser && (
-                <p className="text-sm font-medium mb-1 text-gray-400">~ {user.name}</p>
+                <p className="text-sm font-medium mb-1 text-gray-400">~ {chatUser.name}</p>
               )}
               <p>{chat.message}</p>
               <p className="text-right text-gray-400">

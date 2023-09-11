@@ -25,21 +25,23 @@ async function getChatRoomsData() {
 }
 
 export default function Home() {
-  const { userId, socket, joinChatRoom } = useAuth();
+  const { user, socket, joinChatRoom } = useAuth(); // Updated to use `user` instead of `userId`
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
   const [data, setData] = useState<ChatRoomsData>([]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!userId && !isLoading) {
+    if (!user && !isLoading) {
+      // Updated to check `user` instead of `userId`
       console.log('Redirecting to login page');
       router.push('/login');
     }
     setIsLoading(false);
-  }, [userId, router, isLoading]);
+  }, [user, router, isLoading]);
 
   useEffect(() => {
     setLoading(true);

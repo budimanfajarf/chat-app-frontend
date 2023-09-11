@@ -26,7 +26,8 @@ export default function LoginPage() {
 
     try {
       const { data } = await apiService.post<User>('/v1/auth/login', { name });
-      login(data._id);
+      // Update the login function to accept the full user data
+      login({ _id: data._id, name: data.name });
       router.push('/'); // Redirect to the dashboard
     } catch (error) {
       if (error instanceof AxiosError) {
