@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               src="https://budi.day/pictures/2018-11-20-logo-budi.jpg"
               alt="Budi Logo"
               className="rounded-full"
-              width={72}
+              width={48}
               height={24}
               priority
             />
