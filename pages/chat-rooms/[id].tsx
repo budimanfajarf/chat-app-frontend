@@ -1,5 +1,5 @@
 import { SOCKET_EVENT } from '@/constants/socket.constant';
-import { Chat, ChatRoom, ChatRoomsData } from '@/types/model.type';
+import { Chat, ChatRoom } from '@/types/model.type';
 import apiService from '@/utils/api.service';
 import { useAuth } from '@/utils/useAuth';
 import { AxiosError } from 'axios';
@@ -30,7 +30,8 @@ export default function ChatRoomPage() {
   const { id } = router.query;
   const { userId, socket, sendMessageChatRoom } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<ChatRoom>();
+  const [data, setData] = useState<Omit<ChatRoom, 'chats'>>();
+  const [chats, setChats] = useState<Chat[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -47,7 +48,9 @@ export default function ChatRoomPage() {
     if (id) {
       getChatRoomData(id as string)
         .then((res) => {
-          setData(res);
+          const { chats, ...rest } = res;
+          setData(rest);
+          setChats(chats);
           setLoading(false);
         })
         .catch((err) => {
@@ -84,13 +87,7 @@ export default function ChatRoomPage() {
       const { chatRoomId, chat } = payload;
 
       if (chatRoomId === id) {
-        // Check if the message with the same ID already exists
-        if (!data || !data.chats.some((existingChat) => existingChat._id === chat._id)) {
-          setData((prev) => ({
-            ...prev!,
-            chats: [...prev!.chats, chat], // Use non-null assertion operator here
-          }));
-        }
+        setChats([...chats, chat]);
       }
     }
   );
@@ -106,7 +103,7 @@ export default function ChatRoomPage() {
 
       {/* <div className="fixed inset-0 overflow-scroll mx-auto mt-48 lg:mt-64 grid gap-4 lg:gap-8 bg-slate-500 w-[80vw] lg:w-[70vw] p-8 lg:p-20 rounded-2xl pb-60"> */}
       <div className="mt-4 grid gap-4 lg:gap-8 bg-slate-500 w-[80vw] lg:w-[70vw] p-8 lg:p-20 rounded-2xl pb-60">
-        {data?.chats.map((chat) => {
+        {chats.map((chat) => {
           const user = chat.user[0];
           const isCurrentUser = user._id === userId;
           // const isCurrentUser = false;
