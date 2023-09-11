@@ -88,7 +88,7 @@ export default function ChatRoomPage() {
     (payload: { chatRoomId: string; chat: Chat }) => {
       const { chatRoomId, chat } = payload;
 
-      if (chatRoomId === id) {
+      if (chatRoomId === id && !chats.some((existingChat) => existingChat._id === chat._id)) {
         setChats([...chats, chat]);
       }
     }
