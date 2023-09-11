@@ -14,10 +14,11 @@ export default function LoginPage() {
 
   // Step 2: Update the input field with an onChange handler
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+    setUsername(e.target.value.trim());
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent the default form submission behavior
     try {
       const { data } = await apiService.post<User>('/v1/auth/login', { name: username });
       login(data._id);
@@ -43,18 +44,20 @@ export default function LoginPage() {
 
   return (
     <div>
-      <h1 className="text-3xl text-center mb-8">Enter you name</h1>
-      <input
-        className="px-4 py-2 outline-none text-gray-800 rounded-l-lg"
-        type="text"
-        placeholder="Your username"
-        value={username} // Bind the input value to 'username'
-        onChange={handleInputChange} // Handle input changes
-      />
+      <h1 className="text-3xl text-center mb-8">Enter your name</h1>
+      <form onSubmit={handleLogin}>
+        <input
+          className="px-4 py-2 outline-none text-gray-800 rounded-l-lg"
+          type="text"
+          placeholder="Your username"
+          value={username} // Bind the input value to 'username'
+          onChange={handleInputChange} // Handle input changes
+        />
 
-      <button onClick={handleLogin} className="px-4 py-2 bg-teal-500 font-medium rounded-r-lg mt-2">
-        Submit
-      </button>
+        <button type="submit" className="px-4 py-2 bg-teal-500 font-medium rounded-r-lg mt-2">
+          Submit
+        </button>
+      </form>
     </div>
   );
 }
