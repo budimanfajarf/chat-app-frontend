@@ -65,17 +65,19 @@ export default function ChatRoomPage() {
 
   // Function to handle input changes
   const handleNewMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewMessage(e.target.value.trim());
+    setNewMessage(e.target.value);
   };
 
   // Function to handle form submission
   const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const trimmedNewMessage = newMessage.trim();
+
     // Check if the message is not empty
-    if (newMessage !== '') {
+    if (trimmedNewMessage !== '') {
       // Emit the message to the Socket.io server
-      sendMessageChatRoom({ chatRoomId: id as string, message: newMessage });
+      sendMessageChatRoom({ chatRoomId: id as string, message: trimmedNewMessage });
 
       // Clear the input field after sending
       setNewMessage('');

@@ -14,13 +14,18 @@ export default function LoginPage() {
 
   // Step 2: Update the input field with an onChange handler
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value.trim());
+    setUsername(e.target.value);
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent the default form submission behavior
+
+    const name = username.trim();
+
+    if (!name) return alert('Please enter your name');
+
     try {
-      const { data } = await apiService.post<User>('/v1/auth/login', { name: username });
+      const { data } = await apiService.post<User>('/v1/auth/login', { name });
       login(data._id);
       router.push('/'); // Redirect to the dashboard
     } catch (error) {
