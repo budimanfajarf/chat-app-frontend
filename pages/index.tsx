@@ -62,7 +62,7 @@ export default function Home() {
   };
 
   return (
-    <div className="mt-16 mb-48 lg:my-0">
+    <div className="mt-16 mb-48 lg:mt-0 lg:mb-16">
       <h1 className="text-3xl text-center">Chat Rooms</h1>
 
       {loading && <p className="text-center text-lg mt-10">Loading...</p>}

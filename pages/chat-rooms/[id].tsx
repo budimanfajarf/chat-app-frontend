@@ -96,26 +96,28 @@ export default function ChatRoomPage() {
   );
 
   return (
-    <div>
+    <div className="w-[85vw] lg:w-[70vw] ">
       <div className="text-center mt-12 lg:mt-0">
         <h1 className="text-3xl">{data?.name}</h1>
         <small className="text-gray-500">created {moment(data?.createdAt).fromNow()}</small>
       </div>
-      <p className="mt-4">Participants: {data?.participants.map((p) => p.name).join(', ')}</p>
+      <p className="mt-4">
+        <strong>Participants</strong>: {data?.participants.map((p) => p.name).join(', ')}
+      </p>
 
       {loading && <p className="text-center text-lg mt-10">Loading...</p>}
 
       {error && <p className="text-center text-lg mt-10">{error}</p>}
 
       {/* <div className="fixed inset-0 overflow-scroll mx-auto mt-48 lg:mt-64 grid gap-4 lg:gap-8 bg-slate-500 w-[80vw] lg:w-[70vw] p-8 lg:p-20 rounded-2xl pb-60"> */}
-      <div className="mt-4 grid gap-4 lg:gap-8 bg-slate-500 w-[80vw] lg:w-[70vw] p-8 lg:p-20 rounded-2xl pb-60">
+      <div className="mt-4 grid gap-4 lg:gap-8 bg-slate-500 p-6 lg:p-20 rounded-2xl pb-60">
         {chats.map((chat) => {
           const user = chat.user[0];
           const isCurrentUser = user._id === userId;
           // const isCurrentUser = false;
 
           let className =
-            'w-2/3 p-4 lg:p-6 border-b border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit static rounded-xl border bg-gray-200 lg:dark:bg-zinc-800/30';
+            'w-9/12 p-4 lg:p-6 border-b border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit static rounded-xl border bg-gray-200 lg:dark:bg-zinc-800/30';
 
           if (isCurrentUser) {
             className += ' ml-auto';
@@ -136,7 +138,7 @@ export default function ChatRoomPage() {
         <form onSubmit={handleSubmitMessage}>
           <input
             placeholder="Type your message"
-            className=" outline-none ml-auto w-full p-4 lg:p-6 border-b border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit static rounded-xl border bg-gray-200 lg:dark:bg-zinc-800/30"
+            className="outline-none ml-auto w-full p-4 lg:p-6 border-b border-gray-300 bg-gradient-to-b from-zinc-200 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit static rounded-xl border bg-gray-200 lg:dark:bg-zinc-800/30"
             value={newMessage}
             onChange={handleMessageChange}
           />

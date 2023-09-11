@@ -14,6 +14,9 @@ export function useAuth() {
 
   socket?.on('disconnect', () => {
     console.info(`Socket disconnected: ${socket?.id}`);
+
+    // Logout user when the socket disconnect
+    logout();
   });
 
   useEffect(() => {
