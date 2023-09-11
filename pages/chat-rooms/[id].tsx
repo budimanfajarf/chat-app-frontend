@@ -5,6 +5,7 @@ import { useAuth } from '@/utils/useAuth';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import moment from 'moment';
 
 async function getChatRoomData(id: string) {
   try {
@@ -96,7 +97,10 @@ export default function ChatRoomPage() {
 
   return (
     <div>
-      <h1 className="text-3xl text-center mt-12 lg:mt-0">{data?.name}</h1>
+      <div className="text-center mt-12 lg:mt-0">
+        <h1 className="text-3xl">{data?.name}</h1>
+        <small className="text-gray-500">created {moment(data?.createdAt).fromNow()}</small>
+      </div>
       <p className="mt-4">Participants: {data?.participants.map((p) => p.name).join(', ')}</p>
 
       {loading && <p className="text-center text-lg mt-10">Loading...</p>}
@@ -119,8 +123,13 @@ export default function ChatRoomPage() {
 
           return (
             <div key={chat._id} className={className}>
-              {!isCurrentUser && <p className="text-sm font-medium mb-1">~ {user.name}</p>}
+              {!isCurrentUser && (
+                <p className="text-sm font-medium mb-1 text-gray-400">~ {user.name}</p>
+              )}
               <p>{chat.message}</p>
+              <p className="text-right text-gray-400">
+                <small>{moment(chat.createdAt).fromNow()}</small>
+              </p>
             </div>
           );
         })}
