@@ -1,8 +1,15 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Useful Links
+
+- Checkout setup & demo's video on [youtube](https://youtu.be/3FZgNjK5Jtg?si=RO2r1KqdQl8S9Vs8).
+- Checkout the backend repository on [github](https://github.com/budimanfajarf/chat-app-backend).
+
 ## Getting Started
 
-First, run the development server:
+First, copy the `.env.example` to `.env.local` then fill in the values.
+
+Run the development server:
 
 ```bash
 npm run dev
