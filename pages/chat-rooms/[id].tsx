@@ -1,7 +1,7 @@
 import { SOCKET_EVENT } from '@/constants/socket.constant';
 import { Chat, ChatRoom } from '@/types/model.type';
 import apiService from '@/utils/api.service';
-import { useAuth } from '@/utils/useAuth';
+import { useAuth, useAuthRedirect } from '@/utils/useAuth';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -30,19 +30,12 @@ export default function ChatRoomPage() {
   const router = useRouter();
   const { id } = router.query;
   const { user, socket, sendMessageChatRoom } = useAuth(); // Updated to use `user` instead of `userId`
-  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Omit<ChatRoom, 'chats'>>();
   const [chats, setChats] = useState<Chat[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (!user && !isLoading) {
-      // Updated to check `user` instead of `userId`
-      router.push('/login');
-    }
-    setIsLoading(false);
-  }, [user, router, isLoading]);
+  useAuthRedirect({ user });
 
   useEffect(() => {
     setLoading(true);

@@ -1,12 +1,14 @@
 import env from '@/constants/env.constant';
 import { SOCKET_EVENT } from '@/constants/socket.constant';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 
 const USER_DATA = 'user-data';
+type User = { _id: string; name: string };
 
 export function useAuth() {
-  const [user, setUser] = useState<{ _id: string; name: string } | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [socket, setSocket] = useState<Socket | null>(null);
 
   socket?.on('connect', () => {
@@ -57,4 +59,23 @@ export function useAuth() {
   };
 
   return { user, login, logout, socket, joinChatRoom, sendMessageChatRoom };
+}
+
+export function useAuthRedirect({
+  user,
+  redirectTo = '/login',
+}: {
+  user: User | null;
+  redirectTo?: string;
+}) {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      console.log('Redirecting to login page');
+      router.push(redirectTo);
+    }
+    setIsLoading(false);
+  }, [router, user, redirectTo, isLoading]);
 }
