@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import apiService from '@/utils/api.service';
 import { useAuth, useAuthRedirect } from '@/utils/useAuth';
 import { useRouter } from 'next/router';
+import { LoadingSpinner } from '@/components/Loading';
 
 async function getChatRoomsData() {
   try {
@@ -57,7 +58,7 @@ export default function Home() {
     <div className="mt-16 mb-48 lg:mt-0 lg:mb-16">
       <h1 className="text-3xl text-center">Chat Rooms</h1>
 
-      {loading && <p className="text-center text-lg mt-10">Loading...</p>}
+      <LoadingSpinner isLoading={loading} />
 
       {error && <p className="text-center text-lg mt-10">{error}</p>}
 
