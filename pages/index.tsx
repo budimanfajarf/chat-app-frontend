@@ -5,6 +5,7 @@ import apiService from '@/utils/api.service';
 import { useAuth, useAuthRedirect } from '@/utils/useAuth';
 import { useRouter } from 'next/router';
 import { LoadingSpinner } from '@/components/Loading';
+import { ErrorBox } from '@/components/ErrorBox';
 
 async function getChatRoomsData() {
   try {
@@ -18,7 +19,7 @@ async function getChatRoomsData() {
         error: error.response?.data,
       });
 
-      throw new Error('Failed to fetch data');
+      throw new Error('Failed connect to server');
     }
 
     throw new Error('Unknown error');
@@ -59,8 +60,7 @@ export default function Home() {
       <h1 className="text-3xl text-center">Chat Rooms</h1>
 
       <LoadingSpinner isLoading={loading} />
-
-      {error && <p className="text-center text-lg mt-10">{error}</p>}
+      <ErrorBox error={error} />
 
       <div className="mt-10 grid md:grid-cols-2 gap-8">
         {data.map((room) => (

@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { LoadingSpinner } from '@/components/Loading';
+import { ErrorBox } from '@/components/ErrorBox';
 
 async function getChatRoomData(id: string) {
   try {
@@ -20,7 +21,7 @@ async function getChatRoomData(id: string) {
         error: error.response?.data,
       });
 
-      throw new Error('Failed to fetch data');
+      throw new Error('Failed connect to server');
     }
 
     throw new Error('Unknown error');
@@ -93,10 +94,9 @@ export default function ChatRoomPage() {
   return (
     <div className="w-[85vw] lg:w-[70vw] ">
       <LoadingSpinner isLoading={loading} />
+      <ErrorBox error={error} />
 
-      {error && <p className="text-center text-lg mt-10">{error}</p>}
-
-      {!loading && (
+      {!loading && !error && (
         <>
           <div className="text-center mt-12 lg:mt-0">
             <h1 className="text-3xl">{data?.name}</h1>
