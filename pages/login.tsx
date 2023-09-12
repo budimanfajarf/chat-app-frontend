@@ -49,18 +49,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div>
-      <h1 className="text-3xl text-center mb-8">Enter your name</h1>
+    <div className="mt-16">
+      <h1 className="text-xl lg:text-3xl text-left lg:text-center mb-1 lg:mb-6">Enter your name</h1>
       <form onSubmit={handleLogin}>
         <input
-          className="px-4 py-2 outline-none text-gray-800 rounded-l-lg"
+          className="px-4 py-2 lg:px-6 lg:py-3 lg:text-xl outline-none text-gray-800 rounded-l-lg lg:rounded-l-xl"
           type="text"
-          placeholder="Your username"
+          placeholder="John Doe"
           value={username} // Bind the input value to 'username'
           onChange={handleInputChange} // Handle input changes
         />
 
-        <button type="submit" className="px-4 py-2 bg-teal-500 font-medium rounded-r-lg mt-2">
+        <button
+          type="submit"
+          className="px-4 py-2 lg:px-6 lg:py-3 lg:text-xl bg-teal-500 font-medium rounded-r-lg lg:rounded-r-xl mt-2"
+        >
           Submit
         </button>
       </form>
