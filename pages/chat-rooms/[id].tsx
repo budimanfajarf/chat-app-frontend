@@ -34,14 +34,12 @@ export default function ChatRoomPage() {
   const { user, socket, sendMessageChatRoom } = useAuth(); // Updated to use `user` instead of `userId`
   const [data, setData] = useState<Omit<ChatRoom, 'chats'>>();
   const [chats, setChats] = useState<Chat[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useAuthRedirect({ user });
 
   useEffect(() => {
-    setLoading(true);
-
     if (id) {
       getChatRoomData(id as string)
         .then((res) => {
