@@ -12,40 +12,32 @@ const apiService = axios.create({
 
 export default apiService;
 
+export const handleError = (error: unknown) => {
+  if (error instanceof AxiosError) {
+    console.log({
+      code: error.code,
+      status: error.response?.status,
+      error: error.response?.data,
+    });
+
+    throw new Error('Failed connect to server');
+  }
+
+  throw new Error('Unknown error');
+};
+
 export const getChatRoomsData = async () => {
   try {
-    const { data } = await apiService.get<ChatRoomsData>('/v1/chat-rooms');
-    return data;
+    return (await apiService.get<ChatRoomsData>('/v1/chat-rooms'))?.data;
   } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log({
-        code: error.code,
-        status: error.response?.status,
-        error: error.response?.data,
-      });
-
-      throw new Error('Failed connect to server');
-    }
-
-    throw new Error('Unknown error');
+    return handleError(error);
   }
 };
 
 export const getChatRoomData = async (id: string) => {
   try {
-    const { data } = await apiService.get<ChatRoom>(`/v1/chat-rooms/${id}`);
-    return data;
+    return (await apiService.get<ChatRoom>(`/v1/chat-rooms/${id}`))?.data;
   } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log({
-        code: error.code,
-        status: error.response?.status,
-        error: error.response?.data,
-      });
-
-      throw new Error('Failed connect to server');
-    }
-
-    throw new Error('Unknown error');
+    return handleError(error);
   }
 };
