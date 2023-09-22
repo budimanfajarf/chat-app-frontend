@@ -30,7 +30,7 @@ async function getChatRoomData(id: string) {
 
 export default function ChatRoomPage() {
   const router = useRouter();
-  const { id } = router.query;
+  const id = router.query.id as string;
   const { user, socket, sendMessageChatRoom, deleteMessageChatRoom } = useAuth(); // Updated to use `user` instead of `userId`
   const [data, setData] = useState<Omit<ChatRoom, 'chats'>>();
   const [chats, setChats] = useState<Chat[]>([]);
@@ -41,7 +41,7 @@ export default function ChatRoomPage() {
 
   useEffect(() => {
     if (id) {
-      getChatRoomData(id as string)
+      getChatRoomData(id)
         .then((res) => {
           const { chats, ...rest } = res;
           setData(rest);
@@ -71,7 +71,7 @@ export default function ChatRoomPage() {
     // Check if the message is not empty
     if (trimmedNewMessage !== '') {
       // Emit the message to the Socket.io server
-      sendMessageChatRoom({ chatRoomId: id as string, message: trimmedNewMessage });
+      sendMessageChatRoom({ chatRoomId: id, message: trimmedNewMessage });
 
       // Clear the input field after sending
       setNewMessage('');
@@ -147,7 +147,7 @@ export default function ChatRoomPage() {
                     <small>{moment(chat.createdAt).fromNow()}</small>
                     {isCurrentUser && (
                       <button
-                        onClick={(e) => deleteChat({ chatId: chat._id, chatRoomId: id as string })}
+                        onClick={(e) => deleteChat({ chatId: chat._id, chatRoomId: id })}
                         className="ml-2 text-red-500"
                       >
                         <small>delete</small>
