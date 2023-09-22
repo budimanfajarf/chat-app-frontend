@@ -150,7 +150,7 @@ export default function ChatRoomPage() {
                         onClick={(e) => deleteChat({ chatId: chat._id, chatRoomId: id as string })}
                         className="ml-2 text-red-500"
                       >
-                        delete
+                        <small>delete</small>
                       </button>
                     )}
                   </p>
