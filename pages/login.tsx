@@ -4,15 +4,14 @@ import { useRouter } from 'next/router';
 import apiService from '@/utils/api.service';
 import { User } from '@/types/model.type';
 import { AxiosError } from 'axios';
+import { LoadingSpinner } from '@/components/Loading';
 
 export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
-
-  // Step 1: Add a useState hook to manage the input value
   const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // Step 2: Update the input field with an onChange handler
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
@@ -23,6 +22,8 @@ export default function LoginPage() {
     const name = username.trim();
 
     if (!name) return alert('Please enter your name');
+
+    setLoading(true);
 
     try {
       const { data } = await apiService.post<User>('/v1/auth/login', { name });
@@ -45,11 +46,15 @@ export default function LoginPage() {
 
       console.log(error);
       alert('Unknown error');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="mt-16">
+      <LoadingSpinner isLoading={loading} />
+
       <h1 className="text-xl lg:text-3xl text-left lg:text-center mb-1 lg:mb-6">Enter your name</h1>
       <form onSubmit={handleLogin}>
         <input
