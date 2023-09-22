@@ -58,7 +58,11 @@ export function useAuth() {
     socket?.emit(SOCKET_EVENT.NEW_MESSAGE_CHAT_ROOM, payload);
   };
 
-  return { user, login, logout, socket, joinChatRoom, sendMessageChatRoom };
+  const deleteMessageChatRoom = (payload: { chatRoomId: string; chatId: string }) => {
+    socket?.emit(SOCKET_EVENT.DELETE_MESSAGE_CHAT_ROOM, payload);
+  };
+
+  return { user, login, logout, socket, joinChatRoom, sendMessageChatRoom, deleteMessageChatRoom };
 }
 
 export function useAuthRedirect({

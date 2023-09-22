@@ -31,7 +31,7 @@ async function getChatRoomData(id: string) {
 export default function ChatRoomPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { user, socket, sendMessageChatRoom } = useAuth(); // Updated to use `user` instead of `userId`
+  const { user, socket, sendMessageChatRoom, deleteMessageChatRoom } = useAuth(); // Updated to use `user` instead of `userId`
   const [data, setData] = useState<Omit<ChatRoom, 'chats'>>();
   const [chats, setChats] = useState<Chat[]>([]);
   const [loading, setLoading] = useState(true);
@@ -89,6 +89,15 @@ export default function ChatRoomPage() {
     }
   );
 
+  const deleteChat = ({ chatId, chatRoomId }: { chatId: string; chatRoomId: string }) => {
+    console.log({ chatId, chatRoomId });
+    const confirmed = confirm('Are you sure you want to delete this chat?');
+
+    if (confirmed) {
+      deleteMessageChatRoom({ chatRoomId, chatId });
+    }
+  };
+
   return (
     <div className="w-[85vw] lg:w-[70vw] ">
       <LoadingSpinner isLoading={loading} />
@@ -124,6 +133,14 @@ export default function ChatRoomPage() {
                   <p>{chat.message}</p>
                   <p className="text-right text-gray-400">
                     <small>{moment(chat.createdAt).fromNow()}</small>
+                    {isCurrentUser && (
+                      <button
+                        onClick={(e) => deleteChat({ chatId: chat._id, chatRoomId: id as string })}
+                        className="ml-2 text-red-500"
+                      >
+                        delete
+                      </button>
+                    )}
                   </p>
                 </div>
               );
