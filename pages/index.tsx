@@ -1,30 +1,10 @@
 import { ChatRoomsData } from '@/types/model.type';
-import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
-import apiService from '@/utils/api.service';
+import { getChatRoomsData } from '@/utils/api.service';
 import { useAuth, useAuthRedirect } from '@/utils/useAuth';
 import { useRouter } from 'next/router';
 import { LoadingSpinner } from '@/components/Loading';
 import { ErrorBox } from '@/components/ErrorBox';
-
-async function getChatRoomsData() {
-  try {
-    const { data } = await apiService.get<ChatRoomsData>('/v1/chat-rooms');
-    return data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log({
-        code: error.code,
-        status: error.response?.status,
-        error: error.response?.data,
-      });
-
-      throw new Error('Failed connect to server');
-    }
-
-    throw new Error('Unknown error');
-  }
-}
 
 export default function Home() {
   const { user, socket, joinChatRoom } = useAuth(); // Updated to use `user` instead of `userId`

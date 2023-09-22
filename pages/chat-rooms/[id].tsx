@@ -1,32 +1,12 @@
 import { SOCKET_EVENT } from '@/constants/socket.constant';
 import { Chat, ChatRoom } from '@/types/model.type';
-import apiService from '@/utils/api.service';
+import { getChatRoomData } from '@/utils/api.service';
 import { useAuth, useAuthRedirect } from '@/utils/useAuth';
-import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { LoadingSpinner } from '@/components/Loading';
 import { ErrorBox } from '@/components/ErrorBox';
-
-async function getChatRoomData(id: string) {
-  try {
-    const { data } = await apiService.get<ChatRoom>(`/v1/chat-rooms/${id}`);
-    return data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      console.log({
-        code: error.code,
-        status: error.response?.status,
-        error: error.response?.data,
-      });
-
-      throw new Error('Failed connect to server');
-    }
-
-    throw new Error('Unknown error');
-  }
-}
 
 export default function ChatRoomPage() {
   const router = useRouter();
