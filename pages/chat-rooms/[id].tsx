@@ -98,6 +98,18 @@ export default function ChatRoomPage() {
     }
   };
 
+  socket?.on(
+    SOCKET_EVENT.DELETED_MESSAGE_CHAT_ROOM,
+    (payload: { chatRoomId: string; chatId: string }) => {
+      const { chatRoomId, chatId } = payload;
+
+      if (chatRoomId === id) {
+        const newChats = chats.filter((chat) => chat._id !== chatId);
+        setChats(newChats);
+      }
+    }
+  );
+
   return (
     <div className="w-[85vw] lg:w-[70vw] ">
       <LoadingSpinner isLoading={loading} />
