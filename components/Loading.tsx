@@ -30,7 +30,18 @@ export const LoadingSpinner = ({ isLoading }: { isLoading: boolean }) => {
         }`}
       >
         Please wait for a few minutes. <br />
-        This backend service using free cloud, it may take some time to re-start the service.
+        The backend service using free cloud, it may take some time to restart the service.
+        <br />
+        <br />
+        Check the restart status here&nbsp;
+        <a
+          href="https://service.chatapp.budi.day/"
+          className="underline"
+          target="_blank"
+          rel="noreferrer"
+        >
+          service.chatapp.budi.day
+        </a>
       </div>
     </div>
   );
